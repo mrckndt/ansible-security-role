@@ -1,0 +1,11 @@
+- name: install additional hardening packages
+  apt:
+    name: "{{ security_additional_packages }}"
+    state: present
+  when: security_install_additional_packages | bool
+
+- name: remove packages with known issues
+  apt:
+    name: "{{ security_insecure_packages }}"
+    state: absent
+  when: security_remove_insecure_packages | bool

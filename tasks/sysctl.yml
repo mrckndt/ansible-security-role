@@ -1,0 +1,21 @@
+- name: protect sysctl.conf
+  file:
+    path: '/etc/sysctl.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0440'
+
+- name: create a combined sysctl-dict if overwrites are defined
+  set_fact:
+    sysctl_config: '{{ sysctl_config | combine(sysctl_overwrite) }}'
+  when: sysctl_overwrite | default()
+
+- name: configure sysctl-settings
+  sysctl:
+    name: '{{ item.key }}'
+    value: '{{ item.value }}'
+    sysctl_set: yes
+    state: present
+    reload: yes
+    ignoreerrors: yes
+  with_dict: '{{ sysctl_config }}'

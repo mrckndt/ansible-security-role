@@ -1,0 +1,3 @@
+- name: hardening system
+  include: hardening.yml
+  when: security_hardening_system | bool

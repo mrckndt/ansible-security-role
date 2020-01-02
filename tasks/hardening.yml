@@ -1,0 +1,19 @@
+- name: install additional and/or remove insecure
+  include: deb.yml
+  when: ansible_facts.distribution == 'Debian'
+
+- name: enable fail2ban
+  include: fail2ban.yml
+  when: security_fail2ban | bool
+
+- name: enable auditd
+  include: auditd.yml
+  when: security_auditd | bool
+
+- name: hardening sshd
+  include: sshd.yml
+  when: security_sshd | bool
+
+- name: configure sysctl
+  include: sysctl.yml
+  when: security_sysctl | bool

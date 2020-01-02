@@ -1,0 +1,30 @@
+- name: update cache
+  apt:
+    update_cache: yes
+
+- name: reload sshd
+  service:
+    name: sshd
+    state: restarted
+
+- name: reload fail2ban
+  service:
+    name: fail2ban
+    state: restarted
+
+- name: enable fail2ban
+  service:
+    name: fail2ban
+    state: started
+    enabled: yes
+
+- name: reload auditd
+  service:
+    name: auditd
+    state: restarted
+
+- name: enable auditd
+  service:
+    name: auditd
+    state: started
+    enabled: yes

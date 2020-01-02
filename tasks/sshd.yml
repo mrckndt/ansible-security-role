@@ -1,0 +1,66 @@
+- name: configure sshd
+  block:
+  - name: sshd - ensure protocol
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: "^#?Protocol"
+      line: "Protocol 2"
+      state: present
+    notify: reload sshd
+
+  - name: sshd - set port
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: "^#?Port"
+      line: "Port {{ sshd_port }}"
+      state: present
+    notify: reload sshd
+
+  - name: sshd - allow root login
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: "^#?PermitRootLogin"
+      line: "PermitRootLogin {{ sshd_permit_root_login }}"
+      state: present
+    notify: reload sshd
+
+  - name: sshd - disable password authentification
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: "^#?PasswordAuthentication"
+      line: "PasswordAuthentication {{ sshd_password_auth }}"
+      state: present
+    notify: reload sshd
+
+  - name: sshd - ensure pubkey authentication
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: "^#?PubkeyAuthentication"
+      line: "PubkeyAuthentication yes"
+      state: present
+    notify: reload sshd
+
+  - name: sshd - set inactive interval
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: "^#?ClientAliveInterval"
+      line: "ClientAliveInterval {{ sshd_client_alive_interval }}"
+      state: present
+    notify: reload sshd
+
+  - name: sshd - set inactive tries
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: "^#?ClientAliveCountMax"
+      line: "ClientAliveCountMax {{ sshd_client_alive_count_max }}"
+      state: present
+    notify: reload sshd
+
+  - name: sshd - disable X11 forwarding
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: "^#?X11Forwarding"
+      line: "X11Forwarding {{ sshd_X11_forwarding }}"
+      state: present
+    notify: reload sshd
+  ignore_errors: yes

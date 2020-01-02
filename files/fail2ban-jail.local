@@ -1,0 +1,8 @@
+[DEFAULT]
+# Ban hosts for one hour:
+bantime = 3600
+
+[sshd]
+enabled = true
+port = 60022
+logpath = %(sshd_log)s

@@ -1,0 +1,49 @@
+security_additional_packages:
+  - apparmor
+  - apparmor-profiles
+  - debsums
+  - haveged
+
+security_insecure_packages:
+  - xinetd
+  - inetd
+  - ypserv
+  - telnet-server
+  - rsh-server
+  - prelink
+
+# enable hardening at all
+security_hardening_system: true
+
+# enable or disbale features
+security_install_additional_packages: true
+security_remove_insecure_packages: true
+security_fail2ban: true
+security_auditd: true
+security_sshd: true
+security_sysctl: true
+
+# program specific vars
+sshd_port: 60022
+sshd_permit_root_login: 'prohibit-password'
+sshd_password_auth: 'no'
+sshd_X11_forwarding: 'no'
+sshd_client_alive_interval: 300
+sshd_client_alive_count_max: 2
+
+sysctl_config:
+  kernel.dmesg_restrict: 1
+  kernel.perf_event_paranoid: 3
+  kernel.kptr_restrict: 1
+  kernel.kexec_load_disabled: 1
+  kernel.yama.ptrace_scope: 1
+  kernel.unprivileged_bpf_disabled: 1
+
+  fs.protected_regular: 1
+  fs.protected_fifos: 1
+  fs.protected_hardlinks: 1
+  fs.protected_symlinks: 1
+
+  fs.inotify.max_user_watches: 524288
+
+sysctl_overwrite:
